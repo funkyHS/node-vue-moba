@@ -14,7 +14,8 @@
             <el-form-item label="头像">
               <el-upload
                 class="avatar-uploader"
-                :action="$http.defaults.baseURL + '/upload'"
+                :action="uploadUrl"
+                :headers="getAuthHeaders()"
                 :show-file-list="false"
                 :on-success="afterUpload">
                 <img v-if="model.avatar" :src="model.avatar" class="avatar">
@@ -96,7 +97,8 @@
                 <el-form-item label="图标">
                   <el-upload
                     class="avatar-uploader"
-                    :action="$http.defaults.baseURL + '/upload'"
+                    :action="uploadUrl"
+                    :headers="getAuthHeaders()"
                     :show-file-list="false"
                     :on-success="res => $set(item, 'icon', res.url)">
                     <img v-if="item.icon" :src="item.icon" class="avatar">
@@ -109,9 +111,9 @@
                 <el-form-item label="小提示">
                   <el-input v-model="item.tips" type="textarea"></el-input>
                 </el-form-item>
+                
                 <el-form-item>
                   <el-button size="small" type="danger" @click="model.skills.splice(i,1)">删除</el-button>
-                  
                 </el-form-item>
                 
               </el-col>
@@ -198,27 +200,5 @@ export default {
 </script>
 
 <style>
-.avatar-uploader .el-upload {
-  border: 1px dashed #d9d9d9;
-  border-radius: 6px;
-  cursor: pointer;
-  position: relative;
-  overflow: hidden;
-}
-.avatar-uploader .el-upload:hover {
-  border-color: #409EFF;
-}
-.avatar-uploader .avatar-uploader-icon {
-  font-size: 28px;
-  color: #8c939d;
-  width: 5rem;
-  height: 5rem;
-  line-height: 5rem;
-  text-align: center;
-}
-.avatar {
-  width: 5rem;
-  height: 5rem;
-  display: block;
-}
+
 </style>
