@@ -39,7 +39,7 @@ module.exports = function(app) {
         if(req.Model.modelName === 'Category') { // 特殊处理
             queryOptions.populate = 'parent'
         }
-        const items = await req.Model.find().setOptions(queryOptions).limit(10)
+        const items = await req.Model.find().setOptions(queryOptions).limit(100)
         res.send(items)
     })
 

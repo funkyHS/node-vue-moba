@@ -1,18 +1,119 @@
 <template>
-  <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <div>
+    <swiper :options="swiperOption">
+      <swiper-slide>
+        <img class="w-100" src="../assets/images/2f4f389bc893dd15d99cd9221191a4f3.jpeg">
+      </swiper-slide>
+      <swiper-slide>
+        <img class="w-100" src="../assets/images/5fea1e59d92f410284f3a66241831e44.jpeg">
+      </swiper-slide>
+      <swiper-slide>
+        <img class="w-100" src="../assets/images/9b8b16992d7a9aacc0220ef2a4b1e811.jpeg">
+      </swiper-slide>
+      <div class="swiper-pagination pagination-home w-100 text-right px-3 pb-1" slot="pagination"></div>
+    </swiper>
+    <!-- end of swiper -->
+    
+    <div class="nav-icons bg-white mt-3 text-center pt-3 text-dark-1">
+      <div class="d-flex flex-wrap">
+        <div class="nav-item mb-3" v-for="n in 10" :key="n">
+          <i class="sprite sprite-news"></i>
+          <div class="py-2">爆料站</div>
+        </div>
+      </div>
+      <div class="bg-light py-2 fs-sm">
+        <i class="sprite sprite-arrow mr-1"></i>
+        收起
+      </div>
+    </div>
+    <!-- end of nav icons -->
+
+    <m-list-card icon="menu1" title="新闻资讯" :categories="newsCats">
+
+      <template #items="{category}">
+
+        <div class="py-2 fs-lg d-flex" v-for="(news, i) in category.newsList" :key="i">
+
+          <span class="text-info">[{{news.categoryName}}]</span>
+          <span class="px-2">|</span>
+          <span class="flex-1 text-dark-1 text-ellipsis pr-2">{{news.title}}</span>
+          <span class="text-grey-1 fs-sm">{{news.createdAt | date}}</span>
+
+        </div>
+
+      </template>
+
+      
+
+    </m-list-card>
+    
+    
+
   </div>
 </template>
 
 <script>
-// @ is an alias to /src
-import HelloWorld from '@/components/HelloWorld.vue'
+import dayjs from 'dayjs'
 
 export default {
-  name: 'Home',
-  components: {
-    HelloWorld
+
+  filters: {
+    date(val) {
+      return dayjs(val).format('MM/DD')
+    }
+  },
+
+  data () {
+    return {
+
+      newsCats: [],
+      swiperOption: {
+        pagination: {
+          el: '.pagination-home'
+        }
+      }
+
+    }
+  },
+  methods: {
+    async fetchNewsCats() {
+      const res = await this.$http.get('news/list')
+      this.newsCats = res.data
+    }
+  },
+  created () {
+    this.fetchNewsCats();
   }
+
 }
 </script>
+
+<style lang="scss">
+@import '../assets/scss/variables';
+
+.pagination-home {
+
+  .swiper-pagination-bullet {
+    opacity: 1;
+    border-radius: 0.1538rem;
+    background: map-get($colors, 'white');;
+    &.swiper-pagination-bullet-active {
+      background: map-get($colors, 'info');
+    }
+  }
+
+}
+
+.nav-icons {
+  border-top: 1px solid $border-color;
+  border-bottom: 1px solid $border-color;
+  .nav-item {
+    width: 25%;
+    border-right: 1px solid $border-color;
+    &:nth-child(4n) {
+      border-right: none;
+    }
+  }
+}
+
+</style>

@@ -11,6 +11,8 @@ app.use('/uploads',express.static(__dirname + '/uploads')) // 表示uploads路�
 
 require('./plugins/db')(app)
 require('./routes/admin')(app)
+require('./routes/web')(app)
+
 
 
 app.listen(3000, function() {
