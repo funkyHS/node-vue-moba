@@ -19,8 +19,10 @@ Vue.mixin({
     }
   },
   methods: {
-    getAuthHeaders() {
-      return localStorage.token
+    getAuthHeaders(){
+      return {
+        Authorization: `Bearer ${localStorage.token || ''}`
+      }
     }
   }
 })
