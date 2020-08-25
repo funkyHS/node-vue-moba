@@ -38,22 +38,22 @@
       <div class="bg-white px-3">
         <div class="nav d-flex jc-around pt-3 pb-2 border-bottom">
 
-          <div class="nav-item active">
+          <div 
+            v-for="(item, i) in currentItems" 
+            :key="item" 
+            class="nav-item" 
+            :class="{active : currentItemIndex === i}"
+            @click="$refs.list.$swiper.slideTo(i)"
+          >
             <div class="nav-link">
-              英雄初识
-            </div>
-          </div>
-
-          <div class="nav-item">
-            <div class="nav-link">
-              进阶攻略
+              {{item}}
             </div>
           </div>
 
         </div>
       </div>
 
-      <swiper>
+      <swiper ref="list" @slide-change="() => currentItemIndex = $refs.list.$swiper.realIndex">
         <swiper-slide>
           <div>
             
@@ -149,7 +149,9 @@
 
           </div>
         </swiper-slide>
-        <swiper-slide></swiper-slide>
+        <swiper-slide>
+          <h3>进阶攻略</h3>
+        </swiper-slide>
       </swiper>
 
     </div>
@@ -166,7 +168,9 @@ export default {
   data () {
     return {
       model: null,
-      currentSkillIndex: 0
+      currentSkillIndex: 0,
+      currentItemIndex: 0,
+      currentItems:["英雄初识", "进阶攻略"]
     }
   },
   computed: {
